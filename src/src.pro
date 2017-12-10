@@ -20,4 +20,4 @@ SUBDIRS += \
     imports \
     qmldevtools
 
-qtConfig(localserver):!contains(QT_CONFIG, no-qml-debug): SUBDIRS += qmldebug
+qtHaveConfig(localserver):qtConfig(localserver):!contains(QT_CONFIG, no-qml-debug): SUBDIRS += qmldebug

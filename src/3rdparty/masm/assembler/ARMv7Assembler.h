@@ -2372,6 +2372,9 @@ public:
         UNUSED_PARAM(code);
         UNUSED_PARAM(size);
 #endif
+#elif OS(UEFI)
+        UNUSED_PARAM(code);
+        UNUSED_PARAM(size);
 #else
 #error "The cacheFlush support is missing on this platform."
 #endif

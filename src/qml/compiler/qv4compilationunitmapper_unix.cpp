@@ -39,7 +39,9 @@
 
 #include "qv4compilationunitmapper_p.h"
 
+#ifndef Q_OS_UEFI
 #include <sys/mman.h>
+#endif
 #include <functional>
 #include <private/qcore_unix_p.h>
 #include <private/qdeferredcleanup_p.h>
@@ -53,6 +55,9 @@ using namespace QV4;
 
 CompiledData::Unit *CompilationUnitMapper::open(const QString &cacheFileName, const QDateTime &sourceTimeStamp, QString *errorString)
 {
+#ifdef Q_OS_UEFI
+    return nullptr;
+#else
     close();
 
     int fd = qt_safe_open(QFile::encodeName(cacheFileName).constData(), O_RDONLY);
@@ -88,13 +93,16 @@ CompiledData::Unit *CompilationUnitMapper::open(const QString &cacheFileName, co
     dataPtr = ptr;
 
     return reinterpret_cast<CompiledData::Unit*>(dataPtr);
+#endif
 }
 
 void CompilationUnitMapper::close()
 {
+#ifndef Q_OS_UEFI
     if (dataPtr != nullptr)
         munmap(dataPtr, length);
     dataPtr = nullptr;
+#endif
 }
 
 QT_END_NAMESPACE

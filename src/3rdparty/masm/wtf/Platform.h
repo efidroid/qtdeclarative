@@ -432,6 +432,10 @@
 #define WTF_OS_WINDOWS 1
 #endif
 
+#if defined(__uefi__)
+#define WTF_OS_UEFI 1
+#endif
+
 #define WTF_OS_WIN ERROR "USE WINDOWS WITH OS NOT WIN"
 #define WTF_OS_MAC ERROR "USE MAC_OS_X WITH OS NOT MAC"
 
@@ -678,6 +682,15 @@
 #if OS(QNX)
 #define HAVE_MADV_FREE_REUSE 1
 #define HAVE_MADV_FREE 1
+#endif
+
+#if OS(UEFI)
+#define HAVE_ERRNO_H 1
+#define HAVE_STRINGS_H 1
+#define HAVE_SYS_PARAM_H 1
+#define HAVE_SYS_TIME_H 1
+#define WTF_USE_OS_RANDOMNESS 1
+#define WTF_USE_PTHREADS 1
 #endif
 
 /* ENABLE macro defaults */

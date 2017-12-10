@@ -35,6 +35,11 @@
 #include <windows.h>
 #endif
 
+#if OS(UEFI)
+#include <Base.h>
+#include <PiDxe.h>
+#endif
+
 namespace WTF {
 
 static size_t s_pageSize;
@@ -60,6 +65,13 @@ inline size_t systemPageSize()
 #endif
     size = system_info.dwPageSize;
     return size;
+}
+
+#elif OS(UEFI)
+
+inline size_t systemPageSize()
+{
+    return EFI_PAGE_SIZE;
 }
 
 #endif

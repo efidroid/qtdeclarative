@@ -47,6 +47,8 @@
 
 #if OS(WINDOWS)
 #include <windows.h>
+#elif OS(UEFI)
+#include <wtf/OSAllocator.h>
 #else
 #include <sys/mman.h>
 #include <unistd.h>
@@ -118,6 +120,8 @@ struct ExecutableAllocator {
             Q_UNREACHABLE();
         }
 #    endif
+#  elif OS(UEFI)
+        WTF::OSAllocator::setMemoryProtection(addr, size, true, false);
 #  else
         int mode = PROT_READ | PROT_WRITE;
         if (mprotect(addr, size, mode) != 0) {
@@ -152,6 +156,8 @@ struct ExecutableAllocator {
             Q_UNREACHABLE();
         }
 #    endif
+#  elif OS(UEFI)
+        WTF::OSAllocator::setMemoryProtection(addr, size, false, true);
 #  else
         int mode = PROT_READ | PROT_EXEC;
         if (mprotect(addr, size, mode) != 0) {

@@ -73,6 +73,10 @@ public:
     static T* reallocateCommitted(T*, size_t oldSize, size_t newSize, Usage = UnknownUsage, bool writable = true, bool executable = false);
 
     static bool canAllocateExecutableMemory();
+
+#if OS(UEFI)
+    static void setMemoryProtection(void *base, size_t size, bool writable, bool executable);
+#endif
 };
 
 inline void* OSAllocator::reserveAndCommit(size_t reserveSize, size_t commitSize, Usage usage, bool writable, bool executable)

@@ -23,6 +23,7 @@
             "label": "QML network support",
             "purpose": "Provides network transparency.",
             "section": "QML",
+            "condition": "!config.uefi",
             "output": [ "publicFeature" ]
         },
         "qml-profiler": {
